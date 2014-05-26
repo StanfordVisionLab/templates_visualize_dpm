@@ -1,0 +1,58 @@
+{% load staticfiles %}
+<link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+<script src="//code.jquery.com/jquery-1.9.1.js"></script>
+<script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+<link rel="stylesheet" href="{% static "css/style.css"%}">
+<script>
+  $( document ).ready(function() {
+    //show streetview image
+    var canvas = document.getElementById('img_div');
+    var context = canvas.getContext('2d');
+    var img = new Image;
+
+    img.onload = function() {
+    context.drawImage(img, 0, 0);
+     {% for bbox in gt_bboxes %} 
+        var bbox_x1 = {{ bbox.x1 }}; 
+        var bbox_width = {{bbox.x2}}-{{bbox.x1}};
+        var bbox_y1 = {{bbox.y1}};
+        var bbox_height = {{bbox.y2}}-{{bbox.y1}};
+
+        context.strokeStyle = '#00FF00';
+        context.lineWidth = 5;
+        context.strokeRect(bbox_x1, bbox_y1, bbox_width, bbox_height);
+        context.stroke();
+     {% endfor %}
+
+     {% for bbox in dpm_bboxes %} 
+        var bbox_x1 = {{ bbox.x1 }}; 
+        var bbox_width = {{bbox.x2}}-{{bbox.x1}};
+        var bbox_y1 = {{bbox.y1}};
+        var bbox_height = {{bbox.y2}}-{{bbox.y1}};
+
+        context.strokeStyle = '#FF0000';
+        context.lineWidth = 5;
+        context.strokeRect(bbox_x1, bbox_y1, bbox_width, bbox_height);
+        context.stroke();
+      {% endfor %}
+
+
+     {% for bbox in detected_dpm_bboxes %} 
+        var bbox_x1 = {{ bbox.x1 }}; 
+        var bbox_width = {{bbox.x2}}-{{bbox.x1}};
+        var bbox_y1 = {{bbox.y1}};
+        var bbox_height = {{bbox.y2}}-{{bbox.y1}};
+
+        context.strokeStyle = '#000000';
+        context.lineWidth = 5;
+        context.strokeRect(bbox_x1, bbox_y1, bbox_width, bbox_height);
+        context.stroke();
+      {% endfor %}
+  
+  }
+img.src = '{{image.url}}';
+ })
+</script>
+  <canvas id="img_div" width="{{image.oriwidth}}" height="{{image.oriheight}}"></canvas>
+
+

@@ -1,0 +1,23 @@
+{% load staticfiles %}
+<link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+<script src="//code.jquery.com/jquery-1.9.1.js"></script>
+<script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+<script src="{% static "js/js_functions.js"%}"></script>
+<link rel="stylesheet" href="{% static "css/style.css"%}">
+
+<script>
+  $( document ).ready(function() {
+    $('.button').button();
+  })
+</script>
+<style>
+  .button {background: white; width:300px; text-align:left;}
+</style>
+<div id="all">
+{% for imid in imids %}
+  <a class="button" href="/show_dpm/show_dpm/show_pic/{{imid}}">{{imid}}</a>
+  </br>
+{% endfor %}
+</div><!--all-->
+
+
